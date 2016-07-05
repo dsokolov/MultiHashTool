@@ -20,7 +20,7 @@ Title
 Shortname
 Description
 Application type
-Link to icons (128õ128 & 50õ50 & 18õ18 & 230õ150)
+Link to icons (128x128 & 50x50 & 18x18 & 230x150)
 App link (https)
 Link to Play Market (https)
 
