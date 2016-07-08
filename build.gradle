@@ -1,0 +1,18 @@
+apply plugin: "idea"
+
+subprojects {
+    apply plugin: "java"
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.5"
+}

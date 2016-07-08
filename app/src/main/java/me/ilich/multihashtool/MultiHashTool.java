@@ -1,3 +1,4 @@
+package me.ilich.multihashtool;
 
 import sun.misc.BASE64Encoder;
 import java.io.*;

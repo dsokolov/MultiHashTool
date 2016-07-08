@@ -1,0 +1,3 @@
+rootProject.name = 'MultiHashTool'
+
+include 'app'
