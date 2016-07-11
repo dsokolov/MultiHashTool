@@ -20,18 +20,18 @@ public class MultiHashTool {
     public static void hashGeneration(String debugKey, String keyStore) throws Exception{
 
         String[] s = getHash(debugKey, keyStore);
-        String crt = new String("crt.crt");
+        String crt = "crt.crt";
         try {
             sun.security.tools.keytool.Main.main(s);
         } catch (Exception ex) {
             //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String ShaFromFile = getShaFromFile(crt);
-        System.out.println("For VK: " + ShaFromFile);
+        String shaFromFile = getShaFromFile(crt);
+        System.out.println("For VK: " + shaFromFile);
 
-        String Base64FromHex = getBase64FromHEX(ShaFromFile);
-        System.out.println("For FB: " + Base64FromHex);
+        String base64FromHex = getBase64FromHEX(shaFromFile);
+        System.out.println("For FB: " + base64FromHex);
     }
 
     private static String getBase64FromHEX(String input) {
@@ -40,8 +40,8 @@ public class MultiHashTool {
         for (int i = 0; i < input.length(); i += 2) {
             char c1 = input.charAt(i);
             char c2 = input.charAt(i + 1);
-            int i1 = intFromChar(c1);
-            int i2 = intFromChar(c2);
+            int i1 = getIntFromChar(c1);
+            int i2 = getIntFromChar(c2);
             barr[bcnt] = 0;
             barr[bcnt] |= (byte) ((i1 & 0x0F) << 4);
             barr[bcnt] |= (byte) (i2 & 0x0F);
@@ -50,7 +50,7 @@ public class MultiHashTool {
         BASE64Encoder encoder = new BASE64Encoder();
         return encoder.encode(barr);
     }
-    private static int intFromChar(char c) {
+    private static int getIntFromChar(char c) {
         char[] carr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
         char clower = Character.toLowerCase(c);
         for (int i = 0; i < carr.length; i++) {
@@ -64,14 +64,14 @@ public class MultiHashTool {
     private static String getShaFromString(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA-1");
         byte[] result = mDigest.digest(input.getBytes());
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
             sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();
     }
     private static String getShaFromFile(String f) throws NoSuchAlgorithmException, IOException {
-        int BUFFER_SIZE = 64 * 1024;
+        final int BUFFER_SIZE = 64 * 1024;
         BufferedInputStream file = new BufferedInputStream(new FileInputStream(f));
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         DigestInputStream in = new DigestInputStream(file, md);
@@ -83,7 +83,7 @@ public class MultiHashTool {
         md = in.getMessageDigest();
         in.close();
         byte[] result = md.digest();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
             sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
         }
