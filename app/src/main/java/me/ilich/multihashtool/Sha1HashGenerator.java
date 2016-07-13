@@ -2,10 +2,7 @@ package me.ilich.multihashtool;
 
 import sun.misc.BASE64Encoder;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
@@ -23,26 +20,27 @@ import java.util.logging.Logger;
  */
 public class Sha1HashGenerator extends HashGenerator {
 
-    String alias;
-    URL keyStore;
-    String storePass;
-
     @Override
-    protected String onGenerate() {
-
-        if (alias == null || keyStore == null || storePass == null) return null;
+    protected String onGenerate(String alias, URL keyStore, String storePass) {
 
         Path tmpDir = null;
         Path tmpDebugKeyStore = null;
         Path tmpCert = null;
 
-        String myPath = keyStore.getPath().substring(1, keyStore.getPath().length());
-        Path srcDir = FileSystems.getDefault().getPath(myPath);
+        InputStream inStream = null;
+        try {
+            inStream = keyStore.openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //String myPath = keyStore.getPath().substring(1, keyStore.getPath().length());
+        //Path srcDir = FileSystems.getDefault().getPath(myPath);
 
         try {
             tmpDir = Files.createTempDirectory("tmp");
             tmpDebugKeyStore = Files.createTempFile(tmpDir, "tmp_file", ".keystore");
-            Files.copy(srcDir, tmpDebugKeyStore, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inStream, tmpDebugKeyStore, StandardCopyOption.REPLACE_EXISTING);
             tmpCert = Files.createTempFile(tmpDir, "crt", ".crt");
             } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +60,7 @@ public class Sha1HashGenerator extends HashGenerator {
         try {
             sun.security.tools.keytool.Main.main(s.toString().split(" "));
         } catch (Exception e) {
-            //e.toString();
+            e.printStackTrace();
             return null;
         }
 
@@ -89,17 +87,29 @@ public class Sha1HashGenerator extends HashGenerator {
 
     @Override
     public String asPlain(String alias, URL keyStore, String storePass) {
-        this.alias = alias;
-        this.keyStore = keyStore;
-        this.storePass = storePass;
-        return onGenerate().toUpperCase();
+        if (alias == null){
+            throw new NullPointerException("alias");
+        }
+        if (keyStore == null){
+            throw new NullPointerException("keyStore");
+        }
+        if (storePass == null){
+            throw new NullPointerException("storePass");
+        }
+        return onGenerate(alias, keyStore, storePass).toUpperCase();
     }
     @Override
     public String asBase64(String alias, URL keyStore, String storePass) {
-        this.alias = alias;
-        this.keyStore = keyStore;
-        this.storePass = storePass;
-        String shaFromFile = onGenerate();
+        if (alias == null){
+            throw new NullPointerException("alias");
+        }
+        if (keyStore == null){
+            throw new NullPointerException("keyStore");
+        }
+        if (storePass == null){
+            throw new NullPointerException("storePass");
+        }
+        String shaFromFile = onGenerate(alias, keyStore, storePass);
         return getBase64FromHEX(shaFromFile);
     }
 
