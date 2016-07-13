@@ -7,11 +7,11 @@ import java.net.URL;
  */
 public abstract class HashGenerator {
 
-    public String asPlain(String alias, URL keyStore) {
+    public String asPlain(String alias, URL keyStore, String storePass) {
         return onGenerate();
     }
 
-    public String asBase64(String alias, URL keyStore) {
+    public String asBase64(String alias, URL keyStore, String storePass) {
         return onGenerate();
     }
 
