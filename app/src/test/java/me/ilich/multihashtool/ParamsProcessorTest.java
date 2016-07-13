@@ -20,9 +20,32 @@ public class ParamsProcessorTest {
 
 
     @Test
-    public void checkParamsProcessor() {
+    public void Sha1forVk() {
         try {
             OutputParams[] outputParams = paramsProcessor.process(new InputParams("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android"));
+            assertEquals("76107487556539B90F5466175B98D18716002CB8", outputParams[0].toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void Sha1forFb() {
+        try {
+            OutputParams[] outputParams = paramsProcessor.process(new InputParams("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android"));
+            assertEquals("dhB0h1VlObkPVGYXW5jRhxYALLg=", outputParams[1].toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void createHTML() {
+        try {
+            OutputParams[] outputParams = paramsProcessor.process(new InputParams("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android"));
+            paramsProcessor.toHTML(outputParams);
             assertEquals("76107487556539B90F5466175B98D18716002CB8", outputParams[0].toString());
         } catch (Exception e) {
             e.printStackTrace();
