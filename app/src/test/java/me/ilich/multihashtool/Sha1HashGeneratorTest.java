@@ -3,10 +3,7 @@ package me.ilich.multihashtool;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 
 import static org.junit.Assert.*;
@@ -26,7 +23,18 @@ public class Sha1HashGeneratorTest {
     @Test
     public void empty() {
         try {
-            hashGenerator.asPlain(null, null);
+            hashGenerator.asPlain(null, null, null);
+            assertTrue(false);
+        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void emptyStorepass() {
+        try {
+            hashGenerator.asPlain("androiddebugkey", Sha1HashGenerator.class.getResource("/debug.keystore"), null);
             assertTrue(false);
         } catch (NullPointerException e) {
         } catch (Exception e) {
@@ -37,7 +45,7 @@ public class Sha1HashGeneratorTest {
     @Test
     public void emptyAlias() {
         try {
-            hashGenerator.asPlain(null, Sha1HashGeneratorTest.class.getResource("/debug.keystore"));
+            hashGenerator.asPlain(null, Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android");
             assertTrue(false);
         } catch (NullPointerException e) {
         } catch (Exception e) {
@@ -48,7 +56,7 @@ public class Sha1HashGeneratorTest {
     @Test
     public void emptyJeystore() {
         try {
-            hashGenerator.asPlain("androiddebugkey", null);
+            hashGenerator.asPlain("androiddebugkey", null, "android");
             assertTrue(false);
         } catch (NullPointerException e) {
         } catch (Exception e) {
@@ -60,7 +68,7 @@ public class Sha1HashGeneratorTest {
     @Test
     public void debugKeystore() {
         try {
-            String s = hashGenerator.asBase64("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"));
+            String s = hashGenerator.asBase64("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android");
             assertEquals("dhB0h1VlObkPVGYXW5jRhxYALLg=", s);
         } catch (Exception e) {
             assertTrue(false);
@@ -70,7 +78,7 @@ public class Sha1HashGeneratorTest {
     @Test
     public void debugKeystoreBase64() {
         try {
-            String s = hashGenerator.asPlain("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"));
+            String s = hashGenerator.asPlain("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android");
             assertEquals("76107487556539B90F5466175B98D18716002CB8", s);
         } catch (Exception e) {
             assertTrue(false);
