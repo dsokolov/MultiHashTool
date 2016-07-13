@@ -31,9 +31,11 @@ public class Sha1HashGenerator extends HashGenerator {
     protected String onGenerate() {
 
         if (alias == null || keyStore == null || storePass == null) return null;
+
         Path tmpDir = null;
         Path tmpDebugKeyStore = null;
         Path tmpCert = null;
+
         String myPath = keyStore.getPath().substring(1, keyStore.getPath().length());
         Path srcDir = FileSystems.getDefault().getPath(myPath);
 
@@ -59,7 +61,7 @@ public class Sha1HashGenerator extends HashGenerator {
 
         try {
             sun.security.tools.keytool.Main.main(s.toString().split(" "));
-        } catch (Throwable e) {
+        } catch (Exception e) {
             //e.toString();
             return null;
         }
@@ -70,6 +72,14 @@ public class Sha1HashGenerator extends HashGenerator {
             shaFromFile = getShaFromFile(tmpCert.toString());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Files.deleteIfExists(tmpCert);
+            Files.deleteIfExists(tmpDebugKeyStore);
+            Files.deleteIfExists(tmpDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
