@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by Aleks on 13.07.2016.
@@ -12,10 +13,12 @@ import static org.junit.Assert.assertTrue;
 public class ParamsProcessorTest {
 
     ParamsProcessor paramsProcessor;
+    HTMLCreator htmlCreator;
 
     @Before
     public void setUp() {
         paramsProcessor = new ParamsProcessor();
+        htmlCreator = new HTMLCreator();
     }
 
 
@@ -26,7 +29,7 @@ public class ParamsProcessorTest {
             assertEquals("76107487556539B90F5466175B98D18716002CB8", outputParams[0].toString());
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue(false);
+            fail();
         }
     }
 
@@ -37,7 +40,7 @@ public class ParamsProcessorTest {
             assertEquals("dhB0h1VlObkPVGYXW5jRhxYALLg=", outputParams[1].toString());
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue(false);
+            fail();
         }
     }
 
@@ -45,7 +48,8 @@ public class ParamsProcessorTest {
     public void createHTML() {
         try {
             OutputParams[] outputParams = paramsProcessor.process(new InputParams("androiddebugkey", Sha1HashGeneratorTest.class.getResource("/debug.keystore"), "android"));
-            paramsProcessor.toHTML(outputParams);
+            htmlCreator.generateHTML(outputParams);
+            htmlCreator.print("SHA1.html");
             assertEquals("76107487556539B90F5466175B98D18716002CB8", outputParams[0].toString());
         } catch (Exception e) {
             e.printStackTrace();

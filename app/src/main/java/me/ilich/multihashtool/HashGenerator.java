@@ -9,6 +9,7 @@ import java.net.URL;
  */
 public abstract class HashGenerator {
 
+
     public final String asPlain(String alias, URL keyStore, String storePass) {
         if (alias == null){
             throw new NullPointerException("alias");

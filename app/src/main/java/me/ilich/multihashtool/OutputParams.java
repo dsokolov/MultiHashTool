@@ -4,7 +4,11 @@ package me.ilich.multihashtool;
  * Created by Aleks on 13.07.2016.
  */
 public abstract class OutputParams {
-    String SHA1;
+    private final String SHA1;
+
+    OutputParams(String SHA1){
+        this.SHA1 = SHA1;
+    }
 
     public String getSHA1() {
         return SHA1;

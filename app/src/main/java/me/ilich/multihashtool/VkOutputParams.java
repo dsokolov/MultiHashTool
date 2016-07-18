@@ -6,7 +6,7 @@ package me.ilich.multihashtool;
 public class VkOutputParams extends OutputParams {
 
     VkOutputParams(String hexSHA1) {
-        this.SHA1 = hexSHA1;
+        super(hexSHA1);
     }
 
 }

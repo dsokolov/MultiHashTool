@@ -6,7 +6,7 @@ package me.ilich.multihashtool;
 public class FbOutputParams extends OutputParams {
 
     FbOutputParams(String base64SHA1){
-        this.SHA1 = base64SHA1;
+        super(base64SHA1);
     }
 
 }
