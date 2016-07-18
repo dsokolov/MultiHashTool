@@ -1,2 +1,6 @@
 /.idea/
 /.gradle/
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradle/wrapper/gradle-wrapper.properties
+SHA1.html
