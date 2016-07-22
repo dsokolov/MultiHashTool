@@ -5,8 +5,8 @@ package me.ilich.multihashtool;
  */
 public class VkOutputParams extends OutputParams {
 
-    VkOutputParams(String hexSHA1) {
-        super(hexSHA1);
+    VkOutputParams(String hexSHA1, String packageName, String className) {
+        super(hexSHA1, packageName, className);
     }
 
 }
