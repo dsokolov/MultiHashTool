@@ -14,22 +14,33 @@ public class HTMLCreator {
 
     private List<String> answer;
 
-    public void generateHTML(OutputParams[] params){
+    public void generateHTML(OutputParams[] params) {
         answer = new ArrayList<>();
         answer.add("<!DOCTYPE html>");
         answer.add("<html>");
         answer.add("<head></head>");
         answer.add("<body>");
-        answer.add("<p>For Vk: " + params[0].toString() + "</p>");
-        answer.add("<p>For Fb: " + params[1].toString() + "</p>");
+        answer.add("<p><b>For Vk:" + generateForm(params[0]));
+        answer.add("<p><b>For Fb:" + generateForm(params[1]));
         answer.add("</body>");
         answer.add("</html>");
+    }
+
+    private String generateForm(OutputParams param) {
+        StringBuilder stringBuilder = new StringBuilder("</b><br><br>SHA1:<br>");
+        stringBuilder.append(param.getSHA1());
+        stringBuilder.append("<br><br>Package Name:<br>");
+        stringBuilder.append(param.getPackageName());
+        stringBuilder.append("<br><br>Class Name:<br>");
+        stringBuilder.append(param.getClassName());
+        stringBuilder.append("</p>");
+        return stringBuilder.toString();
     }
 
     public void print(String fileName) {
         try {
             PrintWriter fileHTML = new PrintWriter(new FileWriter(fileName));
-            for (int i = 0; i < answer.size(); i++){
+            for (int i = 0; i < answer.size(); i++) {
                 fileHTML.println(answer.get(i));
             }
             fileHTML.close();
@@ -41,7 +52,7 @@ public class HTMLCreator {
     public void print(File file) {
         try {
             PrintWriter fileHTML = new PrintWriter(new FileWriter(file));
-            for (int i = 0; i < answer.size(); i++){
+            for (int i = 0; i < answer.size(); i++) {
                 fileHTML.println(answer.get(i));
             }
             fileHTML.close();

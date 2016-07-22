@@ -11,33 +11,33 @@ public abstract class HashGenerator {
 
 
     public final String asPlain(String alias, URL keyStore, String storePass) {
-        if (alias == null){
+        if (alias == null) {
             throw new NullPointerException("alias");
         }
-        if (keyStore == null){
+        if (keyStore == null) {
             throw new NullPointerException("keyStore");
         }
-        if (storePass == null){
+        if (storePass == null) {
             throw new NullPointerException("storePass");
         }
         return onGenerate(alias, keyStore, storePass).toUpperCase();
     }
 
     public final String asBase64(String alias, URL keyStore, String storePass) {
-        if (alias == null){
+        if (alias == null) {
             throw new NullPointerException("alias");
         }
-        if (keyStore == null){
+        if (keyStore == null) {
             throw new NullPointerException("keyStore");
         }
-        if (storePass == null){
+        if (storePass == null) {
             throw new NullPointerException("storePass");
         }
         return getBase64FromHEX(onGenerate(alias, keyStore, storePass));
     }
 
     private static String getBase64FromHEX(String input) {
-        byte barr[] = new byte[input.length()/2];
+        byte barr[] = new byte[input.length() / 2];
         int bcnt = 0;
         for (int i = 0; i < input.length(); i += 2) {
             char c1 = input.charAt(i);
@@ -54,7 +54,7 @@ public abstract class HashGenerator {
     }
 
     private static int getIntFromChar(char c) {
-        char[] carr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        char[] carr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         char clower = Character.toLowerCase(c);
         for (int i = 0; i < carr.length; i++) {
             if (clower == carr[i]) {
